@@ -1,5 +1,7 @@
 import React from "react";
-import { Box } from "@chakra-ui/react";
+import { Box, Button } from "@chakra-ui/react";
+import { DeleteButton } from "./DeleteButton";
+import { AlertWindow } from "./ConfirmWindow";
 
 export const EventDetail = ({
   title,
@@ -8,6 +10,10 @@ export const EventDetail = ({
   endTime,
   location,
   image,
+  onDelete,
+  isAlertOpen,
+  onClose,
+  onConfirm,
 }) => {
   return (
     <div>
@@ -20,6 +26,17 @@ export const EventDetail = ({
       <Box boxSize="200px">
         <img src={image} alt={title} />
       </Box>
+      <DeleteButton onDelete={onDelete} />
+      {/* <Button colorScheme="red" onClick={onOpen}>
+        Delete event
+      </Button> */}
+      <AlertWindow
+        isOpen={isAlertOpen}
+        onClose={onClose}
+        onConfirm={onConfirm}
+        title="Verwijder Dropshot Evenement"
+        message="Weet je het zeker? Nu Moeten ze alleen die dropshot naar binnen shuffelen! "
+      />
     </div>
   );
 };

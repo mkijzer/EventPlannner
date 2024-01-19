@@ -1,17 +1,18 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
+import { UnorderedList, ListItem } from "@chakra-ui/react";
 
 export const Navigation = () => {
   return (
     <nav>
-      <ul>
-        <li>
+      <UnorderedList listStyleType="none">
+        <ListItem>
           <Link to="/">Events</Link>
-        </li>
+        </ListItem>
         <li>
           <Link to="/event/1">Event</Link>
         </li>
-      </ul>
+      </UnorderedList>
     </nav>
   );
 };
