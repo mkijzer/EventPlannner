@@ -16,6 +16,7 @@ export const AddEventForm = () => {
   const [endTime, setEndTime] = useState("");
   const [image, setImage] = useState("");
   const [error, setError] = useState("");
+  const [isFormOpen, setIsFormOpen] = useState(true);
 
   const navigate = useNavigate();
 
@@ -26,7 +27,8 @@ export const AddEventForm = () => {
     description,
     location,
     startTime,
-    endTime
+    endTime,
+    image
   ) => {
     try {
       const response = await fetch("http://localhost:3000/events", {
@@ -40,6 +42,7 @@ export const AddEventForm = () => {
           location,
           startTime,
           endTime,
+          image,
         }),
       });
 
@@ -51,12 +54,12 @@ export const AddEventForm = () => {
 
       const data = await response.json();
       console.log("Succes:", data);
-
+      setIsFormOpen(false);
       navigate("/");
 
       toast({
-        title: "WOOOHOOOO Dropshot PARTY",
-        description: "Daar ga je weer, Dronken door de dropshot!",
+        title: "Succes!",
+        description: "You have created a new event",
         status: "success",
         duration: 5000,
         isClosable: true,
@@ -78,67 +81,74 @@ export const AddEventForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    sendDataToServer(title, description, location, startTime, endTime);
+    sendDataToServer(title, description, location, startTime, endTime, image);
   };
 
   return (
     <>
-      <h2>New Event</h2>
-      <form onSubmit={handleSubmit}>
-        <FormControl id="event.title" isRequired>
-          <FormLabel>Title</FormLabel>
-          <Input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="Title"
-          />
-        </FormControl>
-        <FormControl id="event.description" isRequired>
-          <FormLabel>Description</FormLabel>
-          <Input
-            type="text"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            placeholder="Description"
-          />
-        </FormControl>
-        <FormControl id="event.location" isRequired>
-          <FormLabel>Location</FormLabel>
-          <Input
-            type="text"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-            placeholder="Location"
-          />
-        </FormControl>
-        <FormControl id="event.startTime" isRequired>
-          <FormLabel>Start Time</FormLabel>
-          <Input
-            type="datetime-local"
-            value={startTime}
-            onChange={(e) => setStartTime(e.target.value)}
-            placeholder="date + time"
-          />
-        </FormControl>
-        <FormControl id="event.endTime" isRequired>
-          <FormLabel>End Time</FormLabel>
-          <Input
-            type="datetime-local"
-            value={endTime}
-            onChange={(e) => setEndTime(e.target.value)}
-            placeholder="date + time"
-          />
-        </FormControl>
-        <FormControl id="event.image">
-          <FormLabel>Image</FormLabel>
-          <Input type="file" onChange={(e) => setImage(e.target.files[0])} />
-        </FormControl>
+      {/* <h2>New Event</h2> */}
+      {isFormOpen && (
+        <form onSubmit={handleSubmit}>
+          <FormControl id="event.title" isRequired>
+            <FormLabel>Title</FormLabel>
+            <Input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Title"
+            />
+          </FormControl>
+          <FormControl id="event.description" isRequired>
+            <FormLabel>Description</FormLabel>
+            <Input
+              type="text"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Description"
+            />
+          </FormControl>
+          <FormControl id="event.location" isRequired>
+            <FormLabel>Location</FormLabel>
+            <Input
+              type="text"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              placeholder="Location"
+            />
+          </FormControl>
+          <FormControl id="event.startTime" isRequired>
+            <FormLabel>Start Time</FormLabel>
+            <Input
+              type="datetime-local"
+              value={startTime}
+              onChange={(e) => setStartTime(e.target.value)}
+              placeholder="date + time"
+            />
+          </FormControl>
+          <FormControl id="event.endTime" isRequired>
+            <FormLabel>End Time</FormLabel>
+            <Input
+              type="datetime-local"
+              value={endTime}
+              onChange={(e) => setEndTime(e.target.value)}
+              placeholder="date + time"
+            />
+          </FormControl>
+          <FormControl id="event.image">
+            <FormLabel>Image</FormLabel>
+            <Input
+              type="text"
+              value={image}
+              onChange={(e) => setImage(e.target.value)}
+              placeholder="URL of your image"
+            />
+          </FormControl>
 
-        <Button type="submit" mt={4} colorScheme="blue">
-          Add Event
-        </Button>
-      </form>
+          <Button type="submit" mt={4} colorScheme="blue">
+            Add Event
+          </Button>
+        </form>
+      )}
     </>
   );
 };

@@ -1,9 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { Heading, UnorderedList, ListItem } from "@chakra-ui/react";
+import {
+  Heading,
+  UnorderedList,
+  ListItem,
+  Box,
+  Image,
+  Flex,
+  Drawer,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerHeader,
+  DrawerBody,
+} from "@chakra-ui/react";
 import { EventDetail } from "../components/Eventdetail";
 import { Link } from "react-router-dom";
 import { AddEventForm } from "../components/AddEventForm";
 import { Button } from "../components/Button";
+import { EventCard } from "../components/EventCard";
 
 export const EventsPage = () => {
   const [showForm, setShowForm] = useState(false);
@@ -24,39 +37,51 @@ export const EventsPage = () => {
   }, []);
 
   return (
-    <div>
-      <Heading>My Events</Heading>
-      <UnorderedList listStyleType="none" m={0} p={0}>
-        {events.map((event) => (
-          <ListItem key={event.id}>
-            <Link to={`/event/${event.id}`}>{event.title}</Link>
-            {/* <EventDetail
-              onDelete={() => deleteEvent(event.id)}
-              title={event.title}
-              description={event.description}
-              startTime={event.startTime}
-              endTime={event.endTime}
-              location={event.location}
-              image={event.image}
-            /> */}
-          </ListItem>
-        ))}
-      </UnorderedList>
-      {/* <Link to="/event/new">New Event</Link> */}
+    <Box>
+      {/* <Box textAlign="center" mt="6">
+        <Heading size="2xl" color="white">
+          My Events
+        </Heading>
+      </Box> */}
 
-      {/* {selectedEventId !== null && (
-        <EventDetail
-          key={selectedEventId}
-          title={events[selectedEventId - 1].title}
-          description={events[selectedEventId - 1].description}
-          startTime={events[selectedEventId - 1].startTime}
-          endTime={events[selectedEventId - 1].endTime}
-          location={events[selectedEventId - 1].location}
-          image={events[selectedEventId - 1].image}
+      <Box mt="2" ml="11%">
+        <Button
+          buttontext="New Event"
+          onClick={toggleAddEventForm}
+          colorScheme="blue"
+          size="sm"
+          shadow="md"
+          transition="0.3s ease"
         />
-      )} */}
-      <Button buttontext="New Event" onClick={toggleAddEventForm} />
-      {showForm && <AddEventForm />}
-    </div>
+      </Box>
+
+      <Drawer isOpen={showForm} placement="right" onClose={toggleAddEventForm}>
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerHeader>Create a New Event</DrawerHeader>
+          <DrawerBody>
+            <AddEventForm />
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
+
+      <Flex justifyContent="center" alignItems="center" flexDirection="column">
+        <UnorderedList
+          listStyleType="none"
+          m={1}
+          p={1}
+          display="flex"
+          flexWrap="wrap"
+          gap="10px"
+          width="80%"
+        >
+          {events.map((event) => (
+            <ListItem key={event.id} flexBasis="300px">
+              <EventCard event={event} />
+            </ListItem>
+          ))}
+        </UnorderedList>
+      </Flex>
+    </Box>
   );
 };

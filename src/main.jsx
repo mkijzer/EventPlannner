@@ -1,6 +1,6 @@
-import { Box, ChakraProvider } from "@chakra-ui/react";
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { Box, ChakraProvider } from "@chakra-ui/react";
 import { Flex } from "@chakra-ui/react";
 import { EventPage } from "./pages/EventPage";
 import { EventsPage } from "./pages/EventsPage";
@@ -10,16 +10,28 @@ import { Root } from "./components/Root";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Root />,
+    element: (
+      <Box bg="#FFFFC7" minHeight="100vh">
+        <Root />
+      </Box>
+    ),
     children: [
       {
         path: "/",
-        element: <EventsPage />,
+        element: (
+          <Box bg="#FFFFC7" minHeight="100vh">
+            <EventsPage />
+          </Box>
+        ),
         // loader: postListLoader,
       },
       {
         path: "/event/:eventId",
-        element: <EventPage />,
+        element: (
+          <Box bg="#FFFFC7" minHeight="100vh">
+            <EventPage />
+          </Box>
+        ),
         // loader: postLoader,
         // action: addComment,
       },
