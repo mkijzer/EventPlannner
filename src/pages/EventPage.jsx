@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Heading } from "@chakra-ui/react";
 import { EventDetail } from "../components/Eventdetail";
 import { useParams, useNavigate } from "react-router-dom";
+import { EditEventDrawer } from "../components/EditEventDrawer";
 
 export const EventPage = () => {
   const { eventId } = useParams();
   const navigate = useNavigate();
   const [event, setEvent] = useState(null);
   const [isAlertOpen, setisAlertOpen] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
 
   const onOpen = () => setisAlertOpen(true);
   const onClose = () => setisAlertOpen(false);
@@ -47,6 +49,10 @@ export const EventPage = () => {
     }
   };
 
+  const handleEdit = () => {
+    setIsEditMode(true);
+  };
+
   return (
     <div>
       {event && (
@@ -61,7 +67,11 @@ export const EventPage = () => {
           isAlertOpen={isAlertOpen}
           onClose={onClose}
           onConfirm={handleActualDeletion}
+          onEdit={handleEdit}
         />
+      )}
+      {isEditMode && (
+        <EditEventDrawer event={event} onClose={() => setIsEditMode(false)} />
       )}
     </div>
   );

@@ -11,7 +11,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <Box bg="#FFFFC7" minHeight="100vh">
+      <Box bgColor="#1A1A1A" minHeight="100vh">
         <Root />
       </Box>
     ),
@@ -19,7 +19,7 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: (
-          <Box bg="#FFFFC7" minHeight="100vh">
+          <Box bgGradient="linear(to-b, #1A1A1A, #0B60B0)" minHeight="100vh">
             <EventsPage />
           </Box>
         ),
@@ -28,7 +28,7 @@ const router = createBrowserRouter([
       {
         path: "/event/:eventId",
         element: (
-          <Box bg="#FFFFC7" minHeight="100vh">
+          <Box bg="##141414" minHeight="100vh">
             <EventPage />
           </Box>
         ),

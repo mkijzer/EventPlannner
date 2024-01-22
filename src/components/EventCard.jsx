@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Box, Text, Image, Card } from "@chakra-ui/react";
 
-export const EventCard = ({ event, onSelec }) => {
+export const EventCard = ({ event }) => {
   const formatStartDate = (startTime) => {
     const date = new Date(startTime);
     const month = new Intl.DateTimeFormat("en", { month: "short" }).format(
@@ -14,6 +14,7 @@ export const EventCard = ({ event, onSelec }) => {
     const day = date.getDate();
     return `${month} ${day} ${year}`;
   };
+
   return (
     <Link to={`/event/${event.id}`}>
       <Card
@@ -31,7 +32,10 @@ export const EventCard = ({ event, onSelec }) => {
         rounded="md"
         bg="black"
         _hover={{
-          transform: "translateY(-10px)",
+          transform: "translateY(-2px)",
+          "& > div > img": {
+            transform: "scale(1.05)",
+          },
         }}
       >
         <Box
@@ -48,6 +52,7 @@ export const EventCard = ({ event, onSelec }) => {
             alt={event.title}
             objectFit="cover"
             boxSize="100%"
+            transition="transform 0.3s ease-in-out"
           />
           <Box
             position="absolute"
@@ -55,14 +60,13 @@ export const EventCard = ({ event, onSelec }) => {
             left="0"
             width="100%"
             height="100%"
-            backgroundColor="rgba(35, 62, 139, 0.5)"
+            backgroundColor="rgba(11, 96, 176, 0.6)"
           ></Box>
         </Box>
         <Box zIndex="1" position="relative">
-          <Text fontSize="4xl" maxW="100%" color="white">
+          <Text fontSize="4xl" maxW="100%" color="#F0EDCF">
             {event.title}
           </Text>
-
           <Text
             fontSize="md"
             overflow="hidden"

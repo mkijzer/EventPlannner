@@ -19,7 +19,6 @@ export const AddEventForm = () => {
   const [isFormOpen, setIsFormOpen] = useState(true);
 
   const navigate = useNavigate();
-
   const toast = useToast();
 
   const sendDataToServer = async (
@@ -53,12 +52,12 @@ export const AddEventForm = () => {
       }
 
       const data = await response.json();
-      console.log("Succes:", data);
+      console.log("Success:", data);
       setIsFormOpen(false);
       navigate("/");
 
       toast({
-        title: "Succes!",
+        title: "Success!",
         description: "You have created a new event",
         status: "success",
         duration: 5000,
@@ -86,7 +85,6 @@ export const AddEventForm = () => {
 
   return (
     <>
-      {/* <h2>New Event</h2> */}
       {isFormOpen && (
         <form onSubmit={handleSubmit}>
           <FormControl id="event.title" isRequired>
@@ -143,7 +141,6 @@ export const AddEventForm = () => {
               placeholder="URL of your image"
             />
           </FormControl>
-
           <Button type="submit" mt={4} colorScheme="blue">
             Add Event
           </Button>

@@ -49,15 +49,17 @@ export const EventsPage = () => {
           buttontext="New Event"
           onClick={toggleAddEventForm}
           colorScheme="blue"
+          variant="ghost"
           size="sm"
           shadow="md"
-          transition="0.3s ease"
+          borderColor="red"
+          transition="0.2s ease"
         />
       </Box>
 
-      <Drawer isOpen={showForm} placement="right" onClose={toggleAddEventForm}>
+      <Drawer isOpen={showForm} placement="top" onClose={toggleAddEventForm}>
         <DrawerOverlay />
-        <DrawerContent>
+        <DrawerContent bg="black">
           <DrawerHeader>Create a New Event</DrawerHeader>
           <DrawerBody>
             <AddEventForm />

@@ -6,13 +6,13 @@ import {
   Card as ChakraCard,
   Stack,
   Heading,
-  Button,
   CardBody,
   CardFooter,
   Center,
 } from "@chakra-ui/react";
 import { DeleteButton } from "./DeleteButton";
 import { AlertWindow } from "./ConfirmWindow";
+import { EditButton } from "./EditButton";
 
 export const EventDetail = ({
   title,
@@ -22,6 +22,7 @@ export const EventDetail = ({
   location,
   image,
   onDelete,
+  onEdit,
   isAlertOpen,
   onClose,
   onConfirm,
@@ -51,14 +52,13 @@ export const EventDetail = ({
           height="100%"
           borderRadius="md"
           overflow="hidden"
-          backgroundColor="rgba(0, 0, 255, 0.5)"
+          backgroundColor="rgba(169, 241, 223, 0.5)"
           style={{ mixBlendMode: "multiply" }}
         />
 
         <Stack style={{ position: "relative", zIndex: 1 }}>
           <CardBody>
             <Heading size="md">{title}</Heading>
-
             <Text fontSize="md">{description}</Text>
             <Text>{startTime}</Text>
             <Text>{endTime}</Text>
@@ -66,7 +66,8 @@ export const EventDetail = ({
           </CardBody>
 
           <CardFooter>
-            <DeleteButton onDelete={onDelete} variant="solid" />
+            <EditButton onEdit={onEdit} colorScheme="teal" />
+            <DeleteButton onDelete={onDelete} colorScheme="red" />
           </CardFooter>
 
           <AlertWindow

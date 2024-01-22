@@ -6,11 +6,7 @@ import { Flex, Box } from "@chakra-ui/react";
 export const Root = () => {
   return (
     <>
-      <Flex flexDirection="row">
-        <Box>
-          <Navigation />
-        </Box>
-      </Flex>
+      <Navigation />
 
       <Outlet />
     </>
