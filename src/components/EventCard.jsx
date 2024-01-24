@@ -18,13 +18,15 @@ export const EventCard = ({ event }) => {
   return (
     <Link to={`/event/${event.id}`}>
       <Card
+        maxW={{ base: "300px", md: "330px", lg: "380px" }}
+        minW={{ base: "300px", md: "330px", lg: "380px" }}
         border=""
         borderRadius="md"
         p="4"
         m="2"
         cursor="pointer"
-        maxW="800px"
-        minW="345px"
+        // maxW="800px"
+        // minW="345px"
         minH="150px"
         overflow="hidden"
         position="relative"
@@ -60,31 +62,40 @@ export const EventCard = ({ event }) => {
             left="0"
             width="100%"
             height="100%"
-            backgroundColor="rgba(11, 96, 176, 0.6)"
+            backgroundColor="rgba(15, 98, 146, 0.6)"
           ></Box>
         </Box>
         <Box zIndex="1" position="relative">
-          <Text fontSize="4xl" maxW="100%" color="#F0EDCF">
+          <Text
+            fontSize="2xl"
+            maxW="100%"
+            color="#16FF00"
+            fontFamily="monospace"
+            marginTop="35px"
+          >
             {event.title}
           </Text>
           <Text
-            fontSize="md"
+            fontSize="xs"
             overflow="hidden"
             whiteSpace="nowrap"
             textOverflow="ellipsis"
             mb="2"
             maxWidth="100%"
-            color="white"
+            color="#FFED00"
+            fontFamily="monospace"
+            marginLeft="2px" // Add left margin of 2px
           >
             {event.location}
           </Text>
         </Box>
         <Text
           fontSize="sm"
-          color="#FFFFC7"
+          color="#FFED00"
           position="absolute"
-          bottom="2"
+          top="2"
           right="2"
+          fontFamily="monospace"
         >
           {formatStartDate(event.startTime)}
         </Text>

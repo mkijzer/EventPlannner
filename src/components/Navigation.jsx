@@ -1,68 +1,102 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  UnorderedList,
-  ListItem,
-  Box,
-  Heading,
   Flex,
+  Heading,
+  HStack,
+  IconButton,
+  Box,
   Text,
   Spacer,
-  HStack,
+  InputGroup,
+  InputLeftElement,
+  Input,
+  ScaleFade,
 } from "@chakra-ui/react";
-import { Button } from "./Button";
+import { SearchIcon } from "@chakra-ui/icons";
 
-export const Navigation = () => {
+export const Navigation = ({ onSearch }) => {
+  const [searchInput, setSearchInput] = useState("");
+  const [isSearchVisible, setIsSearchVisible] = useState(false);
+
+  const handleSearchChange = (event) => {
+    setSearchInput(event.target.value);
+    onSearch(event.target.value);
+  };
+
+  const toggleSearchVisibility = () => {
+    setIsSearchVisible(!isSearchVisible);
+  };
+
   return (
-    <Flex as="nav" p="40px" ml="10px" mr="10px" alignItems="center" gap="10px">
-      <Heading
-        // as="h1"
-        // p="10px"
-        // pl="20px"
-        // ml="3px"
-        // mt="3px"
-        // mb="3px"
-        color="#E4F1FF"
-        // size="2xl"
+    <Box>
+      <Flex
+        as="nav"
+        p="40px"
+        ml="10px"
+        mr="10px"
+        alignItems="center"
+        gap="10px"
       >
-        <Link to="/">MyEvents</Link>
-      </Heading>
+        <Heading
+          bgGradient="linear(to-r, #FFED00, #F637EC)"
+          bgClip="text"
+          color="transparent"
+          fontFamily="monospace"
+          fontSize={{ base: "2xl", md: "5xl", lg: "8xl" }}
+        >
+          <Link to="/">MY>EVENTs</Link>
+        </Heading>
 
-      <Spacer />
-      <HStack spacing="40px">
-        <Box bg="gray.200" p="10px">
-          M
-        </Box>
-        <Text color="#F8E559">
-          <Link to="/event/1">Card</Link>
-        </Text>
-        <Text color="#F8E559">
-          <Link to="/">List</Link>
-        </Text>
-      </HStack>
-    </Flex>
+        <Spacer />
 
-    // <Flex align="center" justify="space-between" p="4">
-    //   <nav>
-    //     <UnorderedList
-    //       listStyleType="none"
-    //       display="flex"
-    //       flexDirection="row"
-    //       justifyContent="flex-start"
-    //     >
-    //       <ListItem>
-    //         <Link to="/">Events</Link>
-    //       </ListItem>
-    //       <ListItem>
-    //         <Link to="/event/1">Event</Link>
-    //       </ListItem>
-    //     </UnorderedList>
-    //   </nav>
-    //   <Box textAlign="center">
-    //     <Heading size="2xl" color="white">
-    //       My Events
-    //     </Heading>
-    //   </Box>
-    // </Flex>
+        <HStack spacing="40px">
+          <Text
+            color="#F8E559"
+            _hover={{
+              transform: "translateY(-2px)",
+              "& > div > img": {
+                transform: "scale(1.05)",
+              },
+            }}
+          >
+            <Link to="/event/1">Card</Link>
+          </Text>
+          <Text
+            color="#F8E559"
+            _hover={{
+              transform: "translateY(-2px)",
+              "& > div > img": {
+                transform: "scale(1.05)",
+              },
+            }}
+          >
+            <Link to="/">List</Link>
+          </Text>
+
+          <IconButton
+            colorScheme="yellow"
+            aria-label="Search"
+            icon={<SearchIcon />}
+            onClick={toggleSearchVisibility}
+          />
+
+          {isSearchVisible && (
+            <ScaleFade initialScale={1.7} in={isSearchVisible}>
+              <InputGroup ml="10px">
+                <InputLeftElement pointerEvents="none">
+                  <SearchIcon color="gray.300" />
+                </InputLeftElement>
+                <Input
+                  placeholder="Search for an event"
+                  value={searchInput}
+                  onChange={handleSearchChange}
+                />
+              </InputGroup>
+            </ScaleFade>
+          )}
+        </HStack>
+      </Flex>
+    </Box>
   );
 };

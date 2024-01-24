@@ -94,6 +94,18 @@ export const AddEventForm = () => {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Title"
+              sx={
+                {
+                  // ":-webkit-autofill": {
+                  //   WebkitBoxShadow: "0 0 0 30px #F207EC inset", // Replace 'your-background-color'
+                  //   WebkitTextFillColor: "#16FF00", // Replace 'your-text-color'
+                  // },
+                  // ":focus": {
+                  //   color: "blue", // Text color when the input field is focused
+                  //   bg: "lightgray", // Background color when the input field is focused
+                  // },
+                }
+              }
             />
           </FormControl>
           <FormControl id="event.description" isRequired>
@@ -141,7 +153,7 @@ export const AddEventForm = () => {
               placeholder="URL of your image"
             />
           </FormControl>
-          <Button type="submit" mt={4} colorScheme="blue">
+          <Button type="submit" mt={4} colorScheme="yellow">
             Add Event
           </Button>
         </form>

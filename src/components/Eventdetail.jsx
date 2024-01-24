@@ -3,16 +3,39 @@ import {
   Box,
   Image,
   Text,
-  Card as ChakraCard,
+  Card,
   Stack,
   Heading,
+  CardHeader,
   CardBody,
   CardFooter,
   Center,
+  Flex,
+  Button,
 } from "@chakra-ui/react";
 import { DeleteButton } from "./DeleteButton";
 import { AlertWindow } from "./ConfirmWindow";
 import { EditButton } from "./EditButton";
+
+const formatStartDate = (startTime) => {
+  if (!startTime) return "Unknown start date";
+  const date = new Date(startTime);
+  if (isNaN(date)) return "Invalid start date";
+  const month = new Intl.DateTimeFormat("en", { month: "short" }).format(date);
+  const year = new Intl.DateTimeFormat("en", { year: "numeric" }).format(date);
+  const day = date.getDate();
+  return `${month} ${day}, ${year}`;
+};
+
+const formatEndDate = (endTime) => {
+  if (!endTime) return "Unknown end date";
+  const date = new Date(endTime);
+  if (isNaN(date)) return "Invalid end date";
+  const month = new Intl.DateTimeFormat("en", { month: "short" }).format(date);
+  const year = new Intl.DateTimeFormat("en", { year: "numeric" }).format(date);
+  const day = date.getDate();
+  return `${month} ${day}, ${year}`;
+};
 
 export const EventDetail = ({
   title,
@@ -27,22 +50,29 @@ export const EventDetail = ({
   onClose,
   onConfirm,
 }) => {
+  const formattedStartDate = formatStartDate(startTime);
+  const formattedEndDate = formatEndDate(endTime);
+
   return (
     <Center h="60vh">
-      <ChakraCard
+      <Card
         direction={{ base: "column", sm: "row" }}
         overflow="hidden"
         variant="outline"
-        boxShadow="xl p=6 rounded=md bg=white"
         minWidth="50%"
         position="relative"
+        border="none"
+        boxShadow="dark-lg"
+        p="6"
+        rounded="md"
+        bg="white"
       >
         <Image
           objectFit="cover"
           maxW={{ base: "100%", sm: "200px" }}
           src={image}
           alt={title}
-          style={{ position: "relative" }}
+          style={{ position: "relative", filter: "blur(5px)" }}
         />
         <Box
           position="absolute"
@@ -52,21 +82,24 @@ export const EventDetail = ({
           height="100%"
           borderRadius="md"
           overflow="hidden"
-          backgroundColor="rgba(169, 241, 223, 0.5)"
+          backgroundColor="rgba(15, 98, 146, 0.6)"
+          border="none"
           style={{ mixBlendMode: "multiply" }}
         />
 
         <Stack style={{ position: "relative", zIndex: 1 }}>
-          <CardBody>
-            <Heading size="md">{title}</Heading>
+          <CardBody fontFamily="monospace">
+            <Heading mb="10px" size="2xl" color="#16FF00">
+              {title}
+            </Heading>
             <Text fontSize="md">{description}</Text>
-            <Text>{startTime}</Text>
-            <Text>{endTime}</Text>
+            <Text>Start: {formattedStartDate}</Text>
+            <Text>End: {formattedEndDate}</Text>
             <Text>{location}</Text>
           </CardBody>
 
           <CardFooter>
-            <EditButton onEdit={onEdit} colorScheme="teal" />
+            <EditButton onEdit={onEdit} colorScheme="yellow" />
             <DeleteButton onDelete={onDelete} colorScheme="red" />
           </CardFooter>
 
@@ -78,7 +111,7 @@ export const EventDetail = ({
             message="Are you sure? This can't be undone!"
           />
         </Stack>
-      </ChakraCard>
+      </Card>
     </Center>
   );
 };
