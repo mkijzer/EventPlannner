@@ -7,7 +7,7 @@ import { EditEventDrawer } from "../components/EditEventDrawer";
 export const EventPage = () => {
   const { eventId } = useParams();
   const navigate = useNavigate();
-  const [events, setEvents] = useState([]); // State to store all events
+  const [events, setEvents] = useState([]);
   const [event, setEvent] = useState(null);
   const [isAlertOpen, setisAlertOpen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -15,22 +15,53 @@ export const EventPage = () => {
   const onOpen = () => setisAlertOpen(true);
   const onClose = () => setisAlertOpen(false);
 
+  const saveUpdatedEvent = async (updatedEvent) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/events/${updatedEvent.id}`,
+        {
+          method: "PUT", // Use PUT or PATCH to update the event
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedEvent),
+        }
+      );
+
+      if (response.ok) {
+        setEvent(updatedEvent);
+        onClose();
+      } else {
+        console.error("Failed to update the event");
+      }
+    } catch (error) {
+      console.error("Error updating event:", error);
+    }
+  };
+
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/events/${eventId}`);
-        const data = await response.json();
-        setEvent(data);
+        // Fetch all events
+        const allEventsResponse = await fetch("http://localhost:3000/events");
+        const allEvents = await allEventsResponse.json();
+        setEvents(allEvents);
+
+        const eventResponse = await fetch(
+          `http://localhost:3000/events/${eventId}`
+        );
+        const eventDetails = await eventResponse.json();
+        setEvent(eventDetails);
       } catch (error) {
         console.error("Error fetching event:", error);
       }
     };
 
     fetchEvents();
-  }, []);
+  }, [eventId]);
 
   const navigateToEvent = (newEventId) => {
-    navigate(`/events/${newEventId}`);
+    navigate(`/event/${newEventId}`);
   };
 
   const navigateToPreviousEvent = () => {
@@ -77,7 +108,7 @@ export const EventPage = () => {
       <Box
         position="absolute"
         top="40%"
-        left="100px"
+        left={{ base: "15px", sm: "20px", md: "40px", lg: "230px" }}
         cursor="pointer"
         fontSize="2xl"
         color="#16FF00"
@@ -89,7 +120,7 @@ export const EventPage = () => {
       <Box
         position="absolute"
         top="40%"
-        right="100px"
+        right={{ base: "15px", sm: "20px", md: "40px", lg: "230px" }}
         cursor="pointer"
         fontSize="2xl"
         color="#16FF00"
@@ -115,6 +146,14 @@ export const EventPage = () => {
       )}
       {isEditMode && (
         <EditEventDrawer event={event} onClose={() => setIsEditMode(false)} />
+      )}
+
+      {isEditMode && (
+        <EditEventDrawer
+          event={event}
+          onClose={() => setIsEditMode(false)}
+          onUpdate={saveUpdatedEvent} // Pass saveUpdatedEvent as a prop
+        />
       )}
     </div>
   );

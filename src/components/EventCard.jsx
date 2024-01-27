@@ -3,23 +3,25 @@ import { Link } from "react-router-dom";
 import { Box, Text, Image, Card } from "@chakra-ui/react";
 
 export const EventCard = ({ event }) => {
-  const formatStartDate = (startTime) => {
-    const date = new Date(startTime);
-    const month = new Intl.DateTimeFormat("en", { month: "short" }).format(
-      date
-    );
-    const year = new Intl.DateTimeFormat("en", { year: "numeric" }).format(
-      date
-    );
-    const day = date.getDate();
-    return `${month} ${day} ${year}`;
+  const formatStartDate = (startDate) => {
+    try {
+      const date = new Date(startDate);
+      if (isNaN(date)) {
+        throw new Error("Invalid date");
+      }
+      const options = { year: "numeric", month: "long", day: "numeric" };
+      return date.toLocaleDateString("en-US", options);
+    } catch (error) {
+      console.error("Error formatting date:", error);
+      return "Invalid date"; // Return a default message or an empty string
+    }
   };
 
   return (
     <Link to={`/event/${event.id}`}>
       <Card
-        maxW={{ base: "300px", md: "330px", lg: "380px" }}
-        minW={{ base: "300px", md: "330px", lg: "380px" }}
+        maxW={{ base: "200px", md: "330px", lg: "300px" }}
+        minW={{ base: "270px", md: "330px", lg: "350px" }}
         border=""
         borderRadius="md"
         p="4"

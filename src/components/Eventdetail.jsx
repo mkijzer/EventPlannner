@@ -54,12 +54,14 @@ export const EventDetail = ({
   const formattedEndDate = formatEndDate(endTime);
 
   return (
-    <Center h="60vh">
+    <Center h="70vh">
       <Card
         direction={{ base: "column", sm: "row" }}
         overflow="hidden"
         variant="outline"
-        minWidth="50%"
+        minWidth={{ base: "290px", sm: "75%", md: "80%", lg: "50%", xl: "50%" }}
+        maxWidth={{ base: "280px" }}
+        maxHeight={{ base: "100%", md: "280px" }}
         position="relative"
         border="none"
         boxShadow="dark-lg"
@@ -67,12 +69,13 @@ export const EventDetail = ({
         rounded="md"
         bg="white"
       >
-        <Image
-          objectFit="cover"
-          maxW={{ base: "100%", sm: "200px" }}
-          src={image}
-          alt={title}
-          style={{ position: "relative", filter: "blur(5px)" }}
+        <Box
+          mt={{ base: "10px", sm: "20px", md: "15px", lg: "20px" }}
+          w={{ base: "100%", sm: "40%", md: "200px", lg: "30%" }}
+          minHeight={{ base: "100px", sm: "10vh", md: "20vh", lg: "20vh" }}
+          bgImage={`url(${image})`}
+          bgSize="cover"
+          bgPosition="center"
         />
         <Box
           position="absolute"
@@ -88,19 +91,52 @@ export const EventDetail = ({
         />
 
         <Stack style={{ position: "relative", zIndex: 1 }}>
-          <CardBody fontFamily="monospace">
-            <Heading mb="10px" size="2xl" color="#16FF00">
+          <CardBody fontFamily="monospace" ml={{ sm: "20px", md: "10px" }}>
+            {/* TITLE */}
+            <Heading
+              fontSize={{ base: "xl", sm: "md", md: "xl", lg: "3xl" }}
+              mb="20px"
+              size="2xl"
+              color="#16FF00"
+            >
               {title}
             </Heading>
-            <Text fontSize="md">{description}</Text>
-            <Text>Start: {formattedStartDate}</Text>
-            <Text>End: {formattedEndDate}</Text>
-            <Text>{location}</Text>
+
+            {/* DESCRIPTION */}
+            <Text
+              fontSize={{ base: "xs", sm: "sm", md: "sm", lg: "lg" }} // Tiny text on small screens
+              mb="5px"
+            >
+              {description}
+            </Text>
+
+            {/* STARTTIME */}
+            <Text
+              fontSize={{ base: "xs", sm: "xs", md: "sm", lg: "md" }} // Tiny text on small screens
+            >
+              Start: {formattedStartDate}
+            </Text>
+
+            {/* ENDTIME */}
+            <Text
+              fontSize={{ base: "xs", sm: "xs", md: "sm", lg: "md" }} // Tiny text on small screens
+            >
+              End: {formattedEndDate}
+            </Text>
+
+            {/* LOCATION */}
+            <Text
+              fontSize={{ base: "xs", sm: "xs", md: "sm", lg: "sm" }}
+              mb="10px"
+              pb="10px" // Tiny text on small screens
+            >
+              {location}
+            </Text>
           </CardBody>
 
-          <CardFooter>
+          <CardFooter ml={{ sm: "20px" }}>
             <EditButton onEdit={onEdit} colorScheme="yellow" />
-            <DeleteButton onDelete={onDelete} colorScheme="red" />
+            <DeleteButton onDelete={onDelete} colorScheme="purple" />
           </CardFooter>
 
           <AlertWindow

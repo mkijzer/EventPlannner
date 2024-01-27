@@ -3,7 +3,7 @@ import { Button } from "@chakra-ui/react";
 
 export const DeleteButton = ({ onDelete }) => {
   return (
-    <Button colorScheme="red" size="xs" onClick={onDelete} variant="ghost">
+    <Button colorScheme="purple" size="xs" onClick={onDelete} variant="ghost">
       Delete
     </Button>
   );

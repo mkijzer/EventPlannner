@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useRef, handleSearchFocus } from "react";
 import { Link } from "react-router-dom";
+import eventsData from "../../../events.json";
+
 import {
   Flex,
   Heading,
@@ -12,12 +14,27 @@ import {
   InputLeftElement,
   Input,
   ScaleFade,
+  Menu,
+  MenuGroup,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Button,
+  Radio,
+  RadioGroup,
+  Stack,
 } from "@chakra-ui/react";
-import { SearchIcon } from "@chakra-ui/icons";
+import { SearchIcon, AddIcon } from "@chakra-ui/icons";
 
-export const Navigation = ({ onSearch }) => {
-  const [searchInput, setSearchInput] = useState("");
+export const Navigation = ({
+  onSearch,
+  handleOpenAddEventDrawer,
+  selectRadioButton,
+  setSelectRadioButton,
+}) => {
+  const [searchInput, setSearchInput] = useState(" ");
   const [isSearchVisible, setIsSearchVisible] = useState(false);
+  const searchInputRef = useRef(null);
 
   const handleSearchChange = (event) => {
     setSearchInput(event.target.value);
@@ -28,11 +45,18 @@ export const Navigation = ({ onSearch }) => {
     setIsSearchVisible(!isSearchVisible);
   };
 
+  const onNewEventClick = () => {
+    handleOpenAddEventDrawer();
+  };
+
+  const categoryNames = eventsData.categories.map((category) => category.name);
+
   return (
     <Box>
       <Flex
         as="nav"
         p="40px"
+        mt="30px"
         ml="10px"
         mr="10px"
         alignItems="center"
@@ -52,6 +76,7 @@ export const Navigation = ({ onSearch }) => {
 
         <HStack spacing="40px">
           <Text
+            display={{ base: "none", md: "block" }}
             color="#F8E559"
             _hover={{
               transform: "translateY(-2px)",
@@ -75,11 +100,60 @@ export const Navigation = ({ onSearch }) => {
           </Text>
 
           <IconButton
+            display={{ base: "none", md: "block" }}
             colorScheme="yellow"
             aria-label="Search"
             icon={<SearchIcon />}
             onClick={toggleSearchVisibility}
+            size="sm"
+            Color="yellow"
           />
+
+          <Menu>
+            <MenuButton
+              display={{ base: "block", md: "none", lg: "none" }}
+              FontSize="sm"
+              size="xs"
+              as={Button}
+              colorScheme="yellow"
+            >
+              menu
+            </MenuButton>
+            <MenuList
+              fontSize="xs"
+              bgColor="black"
+              zIndex="overlay"
+              border="none"
+            >
+              <MenuGroup title="" borderColor="yellow">
+                <InputGroup size="md" onClick={(e) => e.stopPropagation()}>
+                  <InputLeftElement pointerEvents="none">
+                    <SearchIcon color="yellow" />
+                  </InputLeftElement>
+                  <Input
+                    placeholder="Search"
+                    placeholderColor="yellow"
+                    color="yellow"
+                    ref={searchInputRef}
+                    value={searchInput}
+                    onChange={handleSearchChange}
+                    onFocus={handleSearchFocus}
+                  />
+                </InputGroup>
+              </MenuGroup>
+
+              <MenuItem
+                onClick={handleOpenAddEventDrawer}
+                color="yellow"
+                bgColor="black"
+                icon={<AddIcon />}
+                command="⌘N"
+              >
+                New Event
+              </MenuItem>
+              <MenuItem color="yellow" bgColor="black"></MenuItem>
+            </MenuList>
+          </Menu>
 
           {isSearchVisible && (
             <ScaleFade initialScale={1.7} in={isSearchVisible}>
@@ -91,6 +165,7 @@ export const Navigation = ({ onSearch }) => {
                   placeholder="Search for an event"
                   value={searchInput}
                   onChange={handleSearchChange}
+                  color="yellow"
                 />
               </InputGroup>
             </ScaleFade>

@@ -1,16 +1,14 @@
-import React, { useState } from "react";
-
+import React from "react";
 import {
   Drawer,
   DrawerOverlay,
   DrawerContent,
   DrawerHeader,
-  DrawerFooter,
   DrawerBody,
 } from "@chakra-ui/react";
 import { AddEventForm } from "./AddEventForm";
 
-export const AddEventDrawer = ({ isOpen, onClose }) => {
+export const AddEventDrawer = ({ isOpen, onClose, handleClose }) => {
   return (
     <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
       <DrawerOverlay />
@@ -21,7 +19,7 @@ export const AddEventDrawer = ({ isOpen, onClose }) => {
       >
         <DrawerHeader color="#16FF00">Create a New Event</DrawerHeader>
         <DrawerBody>
-          <AddEventForm />
+          <AddEventForm handleClose={handleClose} />
         </DrawerBody>
       </DrawerContent>
     </Drawer>

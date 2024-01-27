@@ -1,9 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
-import { UnorderedList, ListItem, Box, Flex } from "@chakra-ui/react";
+import {
+  UnorderedList,
+  ListItem,
+  Box,
+  Flex,
+  Radio,
+  RadioGroup,
+  Stack,
+  Center,
+} from "@chakra-ui/react";
 
 import { Button } from "../components/Button";
 import { EventCard } from "../components/EventCard";
+import eventsData from "/Users/mike/Winc/final_project/events.json";
 import { AddEventDrawer } from "../components/AddEventDrawer";
 
 // Utility function to format date with month name
@@ -23,6 +33,11 @@ export const EventsPage = () => {
   const [isAddEventDrawerOpen, setAdeventDrawerOpen] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [events, setEvents] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("All Categories");
+
+  const handleCategoryChange = (value) => {
+    setSelectedCategory(value);
+  };
 
   const handleOpenAddEventDrawer = () => {
     console.log("Button is clicked to open drawer");
@@ -36,6 +51,12 @@ export const EventsPage = () => {
   const toggleAddEventForm = () => {
     setShowForm(!showForm);
   };
+
+  const categoryNames = eventsData.categories.map((category) => category.name);
+
+  // useEffect(() => {
+  //   setEvents(eventsData.events);
+  // }, []);
 
   useEffect(() => {
     const getEvents = async () => {
@@ -51,36 +72,70 @@ export const EventsPage = () => {
   }, []);
 
   const filteredEvents = events.filter((event) => {
-    return Object.values(event).some((value) => {
-      if (typeof value === "string") {
-        if (value.includes("-")) {
-          // Simple check to see if the value might be a date
-          const formattedDate = formatDateWithMonthName(value);
-          return formattedDate
-            .toLowerCase()
-            .includes(searchQuery.toLowerCase());
-        }
-        return value.toLowerCase().includes(searchQuery.toLowerCase());
-      }
-      return false;
-    });
+    // Filter by category
+    const categoryFilter =
+      selectedCategory === "All Categories" ||
+      event.categoryIds.some((categoryId) => {
+        const category = eventsData.categories.find((c) => c.id === categoryId);
+        return category && category.name === selectedCategory;
+      });
+
+    // Filter by search query
+    const searchFilter = searchQuery
+      ? Object.values(event).some((value) => {
+          if (typeof value === "string") {
+            return value.toLowerCase().includes(searchQuery.toLowerCase());
+          }
+          return false;
+        })
+      : true;
+
+    return categoryFilter && searchFilter;
   });
 
   return (
     <Box>
+      <Center>
+        <RadioGroup
+          onChange={handleCategoryChange}
+          value={selectedCategory}
+          colorScheme="yellow"
+          color="yellow"
+        >
+          <Stack direction="row">
+            <Radio value="All Categories" size="sm" colorScheme="yellow">
+              All Categories
+            </Radio>
+
+            {categoryNames.map((categoryName) => (
+              <Radio
+                key={categoryName}
+                value={categoryName}
+                size="sm"
+                mr="30px"
+                colorScheme="yellow"
+                fontColor="yellow"
+              >
+                {categoryName}
+              </Radio>
+            ))}
+          </Stack>
+        </RadioGroup>
+      </Center>
       <Box
-        mt="2"
+        mt="4"
         ml={{ base: "0", md: "11%" }}
-        mr={{ base: "30", md: "0" }}
+        mr={{ base: "20", md: "0" }}
         textAlign={{ base: "right", md: "left" }}
         position="relative"
         _hover={{
           zIndex: 3,
         }}
         transition="z-index 0.2s ease"
+        overflow="hidden"
       >
         <Box
-          display="inline-block"
+          display={{ base: "none", md: "block", lg: "block" }}
           position="relative"
           zIndex="1"
           _hover={{

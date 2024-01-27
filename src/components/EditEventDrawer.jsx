@@ -11,7 +11,7 @@ import {
   Button,
 } from "@chakra-ui/react";
 
-export const EditEventDrawer = ({ event, onClose }) => {
+export const EditEventDrawer = ({ event, onClose, onUpdate }) => {
   const [title, setTitle] = useState(event.title);
   const [description, setDescription] = useState(event.description);
   const [location, setLocation] = useState(event.location);
@@ -21,8 +21,17 @@ export const EditEventDrawer = ({ event, onClose }) => {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-    // Add your update logic here
-    onClose(); // Close drawer after update
+    const updatedEvent = {
+      ...event, // Spread the original event
+      title,
+      description,
+      location,
+      startTime,
+      endTime,
+      image,
+    };
+    onUpdate(updatedEvent); // Pass the updated event to the parent
+    onClose();
   };
 
   return (
@@ -43,18 +52,6 @@ export const EditEventDrawer = ({ event, onClose }) => {
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="Title"
-                  sx={
-                    {
-                      // ":-webkit-autofill": {
-                      //   WebkitBoxShadow: "0 0 0 30px #F207EC inset", // Replace 'your-background-color'
-                      //   WebkitTextFillColor: "#16FF00", // Replace 'your-text-color'
-                      // },
-                      // ":focus": {
-                      //   color: "blue", // Text color when the input field is focused
-                      //   bg: "lightgray", // Background color when the input field is focused
-                      // },
-                    }
-                  }
                 />
               </FormControl>
               <FormControl id="event.description" isRequired>
